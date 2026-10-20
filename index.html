@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Louis Maison - Nến Thơm Nghệ Thuật & Thư Giãn Không Gian</title>
+
+    <style>
+
+        :root {
+
+            --bg-color: #FAF6F0;
+
+            --primary-color: #2C221E;
+
+            --accent-gold: #D4A359;
+
+            --accent-warm: #C87D55;
+
+            --card-bg: #FFFDF9;
+
+            --text-muted: #7A6E65;
+
+            --border-color: #E8DFD5;
+
+            --shadow: 0 10px 30px rgba(44, 34, 30, 0.08);
+
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); color: var(--primary-color); line-height: 1.6; }
+
+        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; }
+
+        .candle-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; background: radial-gradient(circle at 20% 20%, rgba(212, 163, 89, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(200, 125, 85, 0.06) 0%, transparent 50%); animation: pulseFlicker 6s infinite alternate ease-in-out; }
+
+        @keyframes pulseFlicker { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+
+        header { position: sticky; top: 0; background: rgba(250, 246, 240, 0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); z-index: 100; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+
+        .logo { font-size: 2rem; font-weight: 700; color: var(--primary-color); text-decoration: none; text-transform: uppercase; font-family: 'Cormorant Garamond', serif; }
+
+        .domain-tag { font-size: 0.75rem; color: var(--accent-gold); font-weight: 500; display: block; }
+
+        nav a { margin-left: 1.5rem; text-decoration: none; color: var(--primary-color); font-weight: 500; font-size: 0.9rem; }
+
+        .btn-admin { background: var(--primary-color); color: #FFF !important; padding: 0.5rem 1.2rem; border-radius: 20px; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; position: relative; z-index: 1; }
+
+        .hero { text-align: center; padding: 3rem 1rem; }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+
+        .hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem auto; font-style: italic; }
+
+        .hero-btn { display: inline-block; padding: 0.8rem 2.5rem; background: var(--accent-gold); color: white; text-decoration: none; border-radius: 30px; font-weight: 500; }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
+
+        .product-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+
+        .product-img { width: 100%; height: 240px; background-size: cover; background-position: center; }
+
+        .product-info { padding: 1.5rem; text-align: center; }
+
+        .chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
+
+        .chat-toggle { width: 65px; height: 65px; border-radius: 50%; background: var(--primary-color); color: var(--accent-gold); border: 2px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; cursor: pointer; }
+
+        .chat-box { position: fixed; bottom: 100px; right: 30px; width: 380px; height: 520px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.18); display: none; flex-direction: column; overflow: hidden; z-index: 1000; }
+
+        .chat-header { background: var(--primary-color); color: var(--bg-color); padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+
+        .chat-body { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #FAF7F2; }
+
+        .msg { max-width: 82%; padding: 0.8rem 1rem; border-radius: 12px; font-size: 0.88rem; }
+
+        .msg.bot { background: #FFF; border: 1px solid var(--border-color); align-self: flex-start; }
+
+        .msg.user { background: var(--primary-color); color: #FFF; align-self: flex-end; }
+
+        .chat-footer { padding: 0.8rem; background: #FFF; border-top: 1px solid var(--border-color); display: flex; gap: 8px; }
+
+        .chat-footer input { flex: 1; padding: 0.6rem 1rem; border: 1px solid var(--border-color); border-radius: 20px; outline: none; }
+
+        .chat-footer button { background: var(--accent-gold); color: white; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; }
+
+        .admin-panel { display: none; background: #FFF; border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); margin-top: 2rem; }
+
+        .admin-layout { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; min-height: 400px; }
+
+        .customer-list { border-right: 1px solid var(--border-color); padding-right: 1rem; }
+
+        .customer-item { padding: 0.8rem; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem; background: var(--bg-color); }
+
+        .customer-item:hover { background: var(--primary-color); color: white; }
+
+        footer { background: var(--primary-color); color: var(--bg-color); padding: 2rem; margin-top: 4rem; text-align: center; }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="candle-bg"></div>
+
+    <header>
+
+        <div>
+
+            <a href="#" class="logo">Louis Maison</a>
+
+            <span class="domain-tag">louismaison.com.vn</span>
+
+        </div>
+
+        <nav>
+
+            <a href="#products">Sản Phẩm</a>
+
+            <a href="#" onclick="toggleAdminPanel(); return false;" class="btn-admin">Chủ Doanh Nghiệp</a>
+
+        </nav>
+
+    </header>
+
+    <div class="container">
+
+        <section class="hero">
+
+            <h1>Một Chút Hương Thơm, Một Khoảng Trời Riêng</h1>
+
+            <p>"Mỗi ngọn nến thơm biến một góc quen thuộc thành khoảng trời riêng ấm áp, giải tỏa mọi mệt mỏi."</p>
+
+            <a href="#" onclick="toggleChat(); return false;" class="hero-btn">Tư Vấn Mùi Hương Cùng AI</a>
+
+        </section>
+
+        <section id="products">
+
+            <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 1.5rem;">Bộ Sưu Tập Nến Thơm Vintage</h2>
+
+            <div class="products-grid">
+
+                <div class="product-card">
+
+                    <div class="product-info">
+
+                        <h3>Ấm Nồng Đêm Thu</h3>
+
+                        <p style="color: var(--accent-warm); font-size: 0.85rem;">Hương Chủ Đạo: Quế, Gỗ Đàn Hương</p>
+
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0;">Ấm áp sâu lắng cho phòng ngủ.</p>
+
+                        <strong>350.000 VNĐ</strong>
+
+                    </div>
+
+                </div>
+
+                <div class="product-card">
+
+                    <div class="product-info">
+
+                        <h3>Thảo Mộc Ban Mai</h3>
+
+                        <p style="color: var(--accent-warm); font-size: 0.85rem;">Hương Chủ Đạo: Xô Thơm, Cam Bergamot</p>
+
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0;">Tỉnh táo cho góc làm việc.</p>
+
+                        <strong>320.000 VNĐ</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="adminSection" class="admin-panel">
+
+            <h2 style="text-align: center; margin-bottom: 1.5rem;">Quản Lý Lịch Sử Chatbot (Chủ Doanh Nghiệp)</h2>
+
+            <div class="admin-layout">
+
+                <div class="customer-list" id="customerList"></div>
+
+                <div>
+
+                    <h3 id="selectedCustomerTitle" style="margin-bottom: 1rem; color: var(--accent-warm);">Chọn SĐT để xem lịch sử</h3>
+
+                    <div id="historyMessages" style="background: #FAF6F0; padding: 1rem; border-radius: 8px; min-height: 300px;"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <div class="chat-widget">
+
+        <div class="chat-toggle" onclick="toggleChat()">AI</div>
+
+        <div class="chat-box" id="chatBox">
+
+            <div class="chat-header">
+
+                <h3>AI Louis Maison</h3>
+
+                <button onclick="toggleChat()" style="background:none; border:none; color:#FFF; cursor:pointer;">X</button>
+
+            </div>
+
+            <div style="background: #F3ECE2; padding: 0.5rem 1rem;">
+
+                <input type="text" id="userPhone" value="0337381606" style="width: 100%; padding: 0.3rem 0.6rem; border: 1px solid #CCC; border-radius: 4px;" placeholder="SĐT khách hàng...">
+
+            </div>
+
+            <div class="chat-body" id="chatBody">
+
+                <div class="msg bot">Xin chào! Tôi là Chuyên Gia Mùi Hương từ Louis Maison. Hãy chia sẻ tâm trạng hoặc không gian mong muốn nhé!</div>
+
+            </div>
+
+            <div class="chat-footer">
+
+                <input type="text" id="userInput" placeholder="Nhập mong muốn mùi hương..." onkeypress="if(event.key==='Enter') sendMessage()">
+
+                <button onclick="sendMessage()">Gửi</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        <p>&copy; 2026 Louis Maison (louismaison.com.vn) - Hotline Chủ Shop: 0337381606</p>
+
+    </footer>
+
+    <script>
+
+        const DB_KEY = "LOUIS_MAISON_CHAT_DB";
+
+        function initDB() {
+
+            if (!localStorage.getItem(DB_KEY)) {
+
+                const initialData = {
+
+                    "0337381606": {
+
+                        phone: "0337381606",
+
+                        messages: [
+
+                            { sender: "bot", text: "Xin chào! Tôi là Chuyên Gia Mùi Hương từ Louis Maison." },
+
+                            { sender: "user", text: "Tôi là chủ doanh nghiệp, tư vấn nến xua tan mệt mỏi sau ngày họp dài." },
+
+                            { sender: "bot", text: "Gợi ý: Mùi 'Hoa Nhài & Gỗ Trầm' giúp thả lỏng tâm trí và cân bằng cảm xúc rất tốt!" }
+
+                        ]
+
+                    }
+
+                };
+
+                localStorage.setItem(DB_KEY, JSON.stringify(initialData));
+
+            }
+
+        }
+
+        initDB();
+
+        function toggleChat() {
+
+            const el = document.getElementById('chatBox');
+
+            el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+
+        }
+
+        function sendMessage() {
+
+            const input = document.getElementById('userInput');
+
+            const text = input.value.trim();
+
+            const phone = document.getElementById('userPhone').value.trim() || "0337381606";
+
+            if (!text) return;
+
+            const chatBody = document.getElementById('chatBody');
+
+            chatBody.innerHTML += `<div class="msg user">${text}</div>`;
+
+            input.value = '';
+
+            let db = JSON.parse(localStorage.getItem(DB_KEY)) || {};
+
+            if (!db[phone]) db[phone] = { phone: phone, messages: [] };
+
+            db[phone].messages.push({ sender: 'user', text: text });
+
+            setTimeout(() => {
+
+                let reply = "Với mong muốn này, dòng nến Ấm Nồng Đêm Thu hoặc Thảo Mộc Ban Mai từ Louis Maison sẽ mang lại khoảng trời riêng tuyệt vời cho bạn!";
+
+                chatBody.innerHTML += `<div class="msg bot">${reply}</div>`;
+
+                db[phone].messages.push({ sender: 'bot', text: reply });
+
+                localStorage.setItem(DB_KEY, JSON.stringify(db));
+
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+            }, 600);
+
+        }
+
+        function toggleAdminPanel() {
+
+            const sec = document.getElementById('adminSection');
+
+            sec.style.display = sec.style.display === 'block' ? 'none' : 'block';
+
+            renderAdmin();
+
+        }
+
+        function renderAdmin() {
+
+            let db = JSON.parse(localStorage.getItem(DB_KEY)) || {};
+
+            const list = document.getElementById('customerList');
+
+            list.innerHTML = '';
+
+            Object.keys(db).forEach(phone => {
+
+                list.innerHTML += `<div class="customer-item" onclick="showHistory('${phone}')"><b>SĐT: ${phone}</b> (${db[phone].messages.length} tin)</div>`;
+
+            });
+
+        }
+
+        function showHistory(phone) {
+
+            let db = JSON.parse(localStorage.getItem(DB_KEY)) || {};
+
+            document.getElementById('selectedCustomerTitle').innerText = "Lịch sử SĐT: " + phone;
+
+            const msgBox = document.getElementById('historyMessages');
+
+            msgBox.innerHTML = '';
+
+            db[phone].messages.forEach(m => {
+
+                msgBox.innerHTML += `<p style="margin-bottom:0.5rem;"><b>${m.sender==='user'?'Khách':'AI'}:</b> ${m.text}</p>`;
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>
